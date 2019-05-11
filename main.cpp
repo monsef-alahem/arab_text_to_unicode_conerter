@@ -16,6 +16,8 @@
 #include <stdlib.h>
 #include <vector>
 
+
+//global variables
 typedef struct arab_line_t {
     unsigned char in_byte[50];
     size_t bytes;
@@ -23,6 +25,7 @@ typedef struct arab_line_t {
     size_t utfs;
 } arab_line_t;
 
+//pointer variables
 std::ifstream ifs("arabic_test.txt");
 std::wofstream  wofs("utf_code.txt");
 
@@ -31,52 +34,8 @@ std::wofstream  wofs("utf_code.txt");
 
 using namespace std;
 
-/*
-int read_arab_file()0
-{
-    int i = 0, j = 0;
-    std::ifstream   ifs("arabic_test.txt");
-    while( ifs.good() )
-    {
-        unsigned char ch = ifs.get();
-        i++;
-        if(ch == '\n')
-            j++;
-        if(ifs.good())
-            arab_text[j][i] = ch;
-    }
-    ifs.close();
-}
-
-int decode_arab_text()
-{
-    uint32_t codep  = 0;
-    uint32_t state  = 0;
-    uint32_t prev   = 0;
-    int i = 0;
-    for( i = 0; i < strlen(arab_text[j]) && o < 12; i++ ) {
-        if( decode(&state, &codep, in_str[i]) == UTF8_ACCEPT ) {
-            out_cp[o] = codep;
-            o++;
-        }
-    }
-
-    if( state != UTF8_ACCEPT ) {
-        // The string is not well-formed"
-        return 0;
-    }
-}
-
-int load_arab_text()
-{
-    std::wofstream  wofs("utf_code.txt");
-    wofs.close();
-}
-*/
 int read_line(arab_line_t *line)
 {
-
-
     //lecture fichier
     int i=0;
     while( ifs.good() )
@@ -116,10 +75,8 @@ int write_line(arab_line_t *line)
     for( int i = 0; i < line->utfs; ++i ) {
         if (line->in_utf[i] == ' ') {
             wofs << " ";
-            //wcout << " ";
         } else {
             wofs << "\\u" << std::hex << line->in_utf[i];
-            //wcout << "\\u" << std::hex << line->in_utf[i];
         }
     }
 }
@@ -229,19 +186,3 @@ int main()
     system("pause");
     return 0;
 }
-
-/*
-int main()
-{
-    char chr[10] = "azer";
-    uint32_t codep  = 0;
-    uint32_t state  = 0;
-    std::cout << std::hex << chr << std::endl;
-    //if (decode(&state, &codep, chr) == 0)
-    decode(&state, &codep, chr[0]);
-    std::cout << std::hex << (int)codep << std::endl;
-    decode(&state, &codep, chr[1]);
-    std::cout << std::hex << (int)codep << std::endl;
-    system("pause");
-}
-*/
