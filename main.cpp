@@ -1,3 +1,12 @@
+/*************************************
+ *  ARAB_TEXT_TO_UNICODE_CONVERTER
+ *  AUTHOR  :   alahem monsef
+ *  EMAIL   :   m.alahem09@gmail.com
+ *  VERSION :   0.1
+ *  DATE    :   10-05-2019
+ *
+ *************************************/
+
 #include <iostream>
 //#include <cstdlib>
 #include <string>
@@ -22,9 +31,6 @@ std::wofstream  wofs("utf_code.txt");
 
 using namespace std;
 
-unsigned char arab_text[1000][50];
-uint32_t arab_text_utf[1000][50];
-uint32_t arab_text_utfi[1000][50];
 /*
 int read_arab_file()0
 {
@@ -186,25 +192,36 @@ int correct(arab_line_t *line)
     }
 }
 
+int count_lines()
+{
+    int lines = 0;
+    std::string str;
+    while (! ifs.eof() ) {
+        getline (ifs,str);
+        lines++;
+    }
+    ifs.seekg (0, ifs.beg);
+    return lines;
+}
+
 int main()
 {
-
-    ///1- software init
+    int lines = count_lines();
+    printf("lines = %d\n", lines);
 
 
     arab_line_t line;
 
-    read_line(&line);
-    get_presentation_form_b(&line);
-    reverse_line(&line);
-    correct(&line);
-    write_line(&line);
-    wofs << '\n';
-    read_line(&line);
-    get_presentation_form_b(&line);
-    reverse_line(&line);
-    correct(&line);
-    write_line(&line);
+    for (int i = 0 ; i < lines ; i++) { 
+        read_line(&line);
+        get_presentation_form_b(&line);
+        reverse_line(&line);
+        correct(&line);
+        write_line(&line);
+        if (i == lines-1)
+            break;
+        wofs << '\n';
+    }
 
     wofs.close();
     ifs.close();
